@@ -3,6 +3,8 @@
 
 audio synthesis with microcontrollers
 
+UdK Berlin 2013, class for computational arts, workshop by Constantin Engelmann
+
 
 ##Day 1, 29.11.13, 11-17:00
 
