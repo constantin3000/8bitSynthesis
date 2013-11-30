@@ -4,7 +4,10 @@
 audio synthesis with microcontrollers
 
 
-##Day 1, 29.11.13
+##Day 1, 29.11.13, 11-17:00
+
+build small amp to drive little speakers
+
 generate a pulse
 
 use a counter and bit operations to derive sub octave oscillations
@@ -13,12 +16,32 @@ use the same counter to do bit amp modulation
 
 try out more complex bit math operations to find interesting compositions, see 1Bit Music links for inspiration
 
+##Day 2, 06.12.13, 11-17:00
+
+generate a sine wave
+
+introduction to Direct Digital Synthesis (wavetable, phase oscillator, samplerate, bitdepth...)
+
+experiment with different wavetables, control possibilities, bit crushing...
+
+and more...   
+
+##Day 3, 17.01.14, 11-17:00
+
+
 ##1 Bit Music
 [https://github.com/Vurma/Bit-Music](https://github.com/Vurma/Bit-Music)
 
 [1 bit examples on YouTube](http://www.youtube.com/watch?v=GtQdIYUtAHg)
 
 [Background history 1bit music](http://countercomplex.blogspot.de/2011/10/algorithmic-symphonies-from-one-line-of.html)
+
+##8bit Synths, Inspirations 
+[Mutable Instruments Shruthi](http://mutable-instruments.net/)
+[Mutable Instruments GitHub Repository](https://github.com/pichenettes)
+[Meeblip](http://meeblip.com/)
+[MIDIvampire, MICrODEC, MixTape Alpha](http://www.openmusiclabs.com/)	
+Jarek Ziembicki AVRSynth
 
 ##Arduino
 
