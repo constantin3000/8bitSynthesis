@@ -3,8 +3,9 @@ q = q ? ();
 q.tables = ();
 q.functions = ();
 q.buffers = ();
+q.temp = ();
 
-q.samplerate = 16e6/416;
+q.samplerate = 16e6/512;
 );
 
 (
@@ -91,14 +92,6 @@ q.tables.tri[2].plot
 );
 
 (
-// to calculate phase increment: freq * max_phase/samplerate
-q.tables.notes = [
-	"lut_notes",
-	"prog_uint32_t",
-	Array.fill(128, { |note| note.midicps * 65536.0/q.samplerate * 65536.0 }).asInteger
-];
-);
-(
 /*
 Process single cycle waveform wav files
 "http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/"
@@ -146,9 +139,26 @@ NdefMixer(s);
 */
 );
 
+/*
+Midinote lookup table
+*/
+(
+// we only calculate the highest octave
+q.temp.notes = 12.collect{ |note|
+	16.collect{ |semi|
+		116 + note + (semi/16);
+}}.flat;
+// to calculate phase increment: freq * max_phase/samplerate
+q.tables.notes = [
+	"lut_pitch_increments",
+	"prog_uint16_t",
+	q.temp.notes.collect{ |note| note.midicps * 65536.0/q.samplerate}.asInteger
+	// Array.fill(q.temp.notes.size, { |note| note.midicps * 65536.0/q.samplerate * 65536.0 }).asInteger
+];
+)
+
 
 /*
 Create header and source files
 */
 q.functions[\createResources].value(q.tables);
-69.midicps
