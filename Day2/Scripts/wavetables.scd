@@ -143,7 +143,7 @@ NdefMixer(s);
 Midinote lookup table
 */
 (
-/*
+
 // we only calculate the highest octave
 q.temp.notes = 12.collect{ |note|
 	16.collect{ |semi|
@@ -154,15 +154,16 @@ q.tables.notes = [
 	"lut_pitch_increments",
 	"prog_uint16_t",
 	q.temp.notes.collect{ |note| note.midicps * 65536.0/q.samplerate}.asInteger
-	// Array.fill(q.temp.notes.size, { |note| note.midicps * 65536.0/q.samplerate * 65536.0 }).asInteger
 ];
-*/
 
+
+/*
 q.tables.notes = [
 	"lut_pitch_increments",
 	"prog_uint32_t",
 	Array.fill(128, { |note| note * 65536.0/q.samplerate * 65536.0 }).asInteger
 ];
+*/
 )
 
 /*
