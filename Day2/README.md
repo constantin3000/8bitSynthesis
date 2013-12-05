@@ -1,4 +1,18 @@
+##Day 2, 06.12.13, 11-17:00
 
+generate a sine wave
+
+introduction to Direct Digital Synthesis (wavetable, phase oscillator, samplerate, bitdepth...)
+
+experiment with different wavetables, control possibilities, bit crushing...
+
+and more... 
+
+##Scripts
+
+includes some Supercollider patches to create wavetables and pitch lookup tables
+
+##Resources
 [Atmel Atmega 168/328 (Arduino Uno, Nano, Duemilanove) Datasheets, Applications Notes, etc](http://www.atmel.com/devices/atmega328p.aspx?tab=documents)
 
 [Atmel Atmega 16u4/32u4 (Arduino Esplora, Leonardo, serial chip on Uno) Datasheets, Applications Notes, etc](http://www.atmel.com/devices/ATMEGA32U4.aspx?tab=documents)
