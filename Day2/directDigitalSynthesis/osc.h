@@ -14,10 +14,9 @@
 class Osc{
   
   enum WaveShapes {
-    RAMP,
-    TRIANGLE,
     SINE,
-    
+    TRIANGLE,
+    RAMP,
   };
   
   public:
@@ -42,8 +41,8 @@ class Osc{
           value = U8Mix(value_a, value_b, phase.bytes[LOW_INTEGRAL]);
         break;
         case(SINE):
-          value_a = pgm_read_byte(lut_tri + phase.bytes[HIGH_INTEGRAL]);
-          value_b = pgm_read_byte(lut_tri + phase.bytes[HIGH_INTEGRAL] + 1);
+          value_a = pgm_read_byte(lut_sin + phase.bytes[HIGH_INTEGRAL]);
+          value_b = pgm_read_byte(lut_sin + phase.bytes[HIGH_INTEGRAL] + 1);
           value = U8Mix(value_a, value_b, phase.bytes[LOW_INTEGRAL]);
         break;
       }
