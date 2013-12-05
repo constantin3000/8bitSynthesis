@@ -37,7 +37,7 @@ void setupSampleTimer(){
     // no prescaler 62.5kHz p. 139 
     TCCR3B = (TCCR3B & 0xf8) | 0x03;
     // set Compare Match A value, can be altered for Samplerate reduction. Hooray Aliasing!
-    OCR2A = kOCRRegister; 
+    OCR3A = kOCRRegister; 
     // enable Timer/Counter3 Output Compare Match A Interrupt Enable
     TIMSK3 |= (1<<OCIE3A); 
   #endif
