@@ -89,6 +89,15 @@ q.tables.tri = [
 /*
 q.tables.tri[2].plot
 */
+
+q.tables.ramp = [
+	"lut_ramp",
+	"prog_uint8_t",
+	Signal.newClear(256).waveFill({ |x| x }, 0, 1.0).linlin(0,1,0,256).asInteger
+];
+/*
+q.tables.tri[2].plot
+*/
 );
 
 (
