@@ -40,12 +40,13 @@ void setup(){
 }
 
 static void NoteTask(){
-osc.note_on(69);
+  int detune = analogRead(0)>>2;
+  osc.set_detune(detune);
 }
 
 void loop(){
-NoteTask();
-osc.Update();
+  osc.Update();
+  NoteTask();
 }
 
 void setupSampleTimer(){

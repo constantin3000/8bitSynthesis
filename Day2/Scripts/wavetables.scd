@@ -161,10 +161,9 @@ q.tables.notes = [
 q.tables.notes = [
 	"lut_pitch_increments",
 	"prog_uint32_t",
-	Array.fill(q.temp.notes.size, { |note| note.midicps * 65536.0/q.samplerate * 65536.0 }).asInteger
+	Array.fill(128, { |note| note * 65536.0/q.samplerate * 65536.0 }).asInteger
 ];
 )
-
 
 /*
 Create header and source files

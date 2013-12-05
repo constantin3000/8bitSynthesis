@@ -4,12 +4,11 @@
 #include "base.h"
 #include "resources.h"
 
-  const uint8_t kStepsPerSemitone = 16;
-  const uint8_t kLowestNote = 0*kStepsPerSemitone;
-  const uint8_t kHighestNote = 128*kStepsPerSemitone;
-  const uint8_t kPitchTableStart = 116*kStepsPerSemitone;
-  const uint8_t kDetuneAmount = 12*kStepsPerSemitone;
-  const uint8_t kOctave = 12*kStepsPerSemitone;
+  const uint16_t kLowestNote       = 0 * 16;
+  const uint16_t kHighestNote      = 128 * 16;
+  const uint16_t kPitchTableStart  = 116 * 16;
+  const int16_t kDetuneAmount     = 12 * 16;
+  const uint16_t kOctave           = 12 * 16;
 
 
 class Osc{
@@ -53,44 +52,40 @@ class Osc{
     }
     
     inline void Update(){
-      uint8_t octave_shift = 0, pitch_index;
-      int16_t pitch;
+      uint8_t octave_shift = 0;
+      int16_t pitch, pitch_index;
       LongWord increment, increment_next;
       
-      pitch = (note<<4);
+      pitch = note<<4;
       pitch += detune;
       
       while(pitch >= kHighestNote){
-        pitch -= kOctave
+        pitch -= kOctave;
       }
       
       pitch_index = pitch;
       pitch_index -= kPitchTableStart;
       
-      while(pitch < 0){
+      while(pitch_index < 0){
         pitch_index += kOctave;
         ++octave_shift;
       }
       
       increment.words[INTEGRAL] = pgm_read_word(lut_pitch_increments + pitch_index);
-      increment_next.words[INTEGRAL] = pgm_read_word(lut_pitch_increments + pitch_index + 1);
-      
+
       while(octave_shift--){
         increment.value = increment.value>>1;
       } 
       
-      if(note<128){
-        phase_increment.value = increment.value;
-      }
+      phase_increment.value = increment.value;
     }
     
-    void note_on(uint8_t _note);
-    void note_off();
     void sync();
+    
+    void set_note(uint8_t _note);
     void set_detune(int16_t _detune);
-    void set_pitch(uint16_t _pitch);
     void set_parameter(uint8_t _parameter);
-    void set_wave(uint16_t _wave);
+    void set_wave(uint8_t _wave);
     
   private:
     LongWord phase;
