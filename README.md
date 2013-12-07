@@ -28,7 +28,7 @@ experiment with different wavetables, control possibilities, bit crushing...
 
 and more...   
 
-##Day 3, 17.01.14, 11-17:00
+##Day 3, 13.01.14, 11-17:00
 
 
 ##1 Bit Music
