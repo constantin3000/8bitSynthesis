@@ -16,24 +16,6 @@ var phases = 0.dup(6);
 65.collect{|counter| phases = (phases + increments)%64;}.flop.plot.plotMode = \steps;
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // deviation of frequency with 8kHz Samplerate, 16bit phase
 a = (8000.0/65535) * (440.0*65535/8000).asInteger
 // in cents
