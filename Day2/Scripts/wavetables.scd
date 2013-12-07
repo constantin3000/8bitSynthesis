@@ -6,6 +6,7 @@ q.buffers = ();
 q.temp = ();
 
 q.samplerate = 16e6/512;
+q.tableSize = 256;
 );
 
 (
@@ -64,7 +65,7 @@ Our wave and utility tables
 q.tables.sin = [
 	"lut_sin",
 	"prog_uint8_t",
-	Signal.sineFill(256, [1]).linlin(-1,1,0,255).asInteger
+	Signal.sineFill(q.tableSize, [1]).linlin(-1,1,0,255).asInteger
 ];
 /*
 q.tables.sin[2].plot
@@ -74,7 +75,7 @@ q.tables.sin[2].plot
 q.tables.rsin = [
 	"lut_rsin",
 	"prog_uint8_t",
-	Signal.sineFill(256, 1.0/[1,2,3,4].scramble).linlin(-1,1,0,255).asInteger
+	Signal.sineFill(q.tableSize, 1.0/[1,2,3,4].scramble).linlin(-1,1,0,255).asInteger
 ];
 /*
 q.tables.rsin[2].plot
@@ -84,7 +85,7 @@ q.tables.rsin[2].plot
 q.tables.tri = [
 	"lut_tri",
 	"prog_uint8_t",
-	Signal.newClear(256).waveFill({ |x, i| x.fold(-1, 1) }, 2, -2).linlin(-1,1,0,255).asInteger
+	Signal.newClear(q.tableSize).waveFill({ |x, i| x.fold(-1, 1) }, 2, -2).linlin(-1,1,0,255).asInteger
 ];
 /*
 q.tables.tri[2].plot
@@ -93,7 +94,7 @@ q.tables.tri[2].plot
 q.tables.ramp = [
 	"lut_ramp",
 	"prog_uint8_t",
-	Signal.newClear(256).waveFill({ |x| x }, 0, 1.0).linlin(0,1,0,256).asInteger
+	Signal.newClear(q.tableSize).waveFill({ |x| x }, 0, 1.0).linlin(0,1,0,256).asInteger
 ];
 /*
 q.tables.tri[2].plot
@@ -102,35 +103,30 @@ q.tables.tri[2].plot
 
 (
 /*
-Process single cycle waveform wav files
-"http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/"
+Single cycle waveform wav files
+http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/
+
+download this zip and unpack it into the same directory as this script
+http://www.adventurekid.se/AKRTfiles/AKWF/AKWF.zip
+a visual guide to the included waveforms
+http://www.adventurekid.se/AKRTfiles/AKWF/view/waveforms_index.html
+
+.resize depends on wslib Quark
 */
 (
-SynthDef(\sampleConversion, { |in, out|
-	var phasor, input;
-	phasor = Line.ar(0, 1, 0.1, doneAction: 2);
-	input = BufRd.ar(1, in, phasor * BufFrames.kr(in), loop: 0, interpolation: 4);
-	BufWr.ar(input, out, phasor * BufFrames.kr(out), loop:0);
-}).add;
-);
-
 q.buffers.organ = Buffer.read(s, "".resolveRelative ++ "AKWF/AKWF_eorgan/AKWF_eorgan_0002.wav");
-q.buffers.organ256 = Buffer.alloc(s, 256, 1);
-
-x = Synth(\sampleConversion, [\in, q.buffers.organ.bufnum, \out, q.buffers.organ256.bufnum]);
-
-q.buffers.organ256.loadToFloatArray(0, -1, {|array| q.buffers.temp = array});
-q.buffers.temp[0] = 0;
-q.buffers.temp[-1] = 0;
+s.sync;
+q.buffers.organ.loadToFloatArray(0, -1, {|array| q.buffers.temp = array});
+// !!! .resize needs the wslib Quark !!!
+q.buffers.temp = q.buffers.temp.linlin(-1,1,0,255).resize(q.tableSize);
 /*
 q.buffers.temp.plot;
 */
 q.tables.wave0 = [
 	"lut_wave0",
 	"prog_uint8_t",
-	q.buffers.temp.linlin(-1,1,0,255).asInteger
+	q.buffers.temp.asInteger
 ];
-q.buffers.temp.size
 /*
 q.tables.wave0[2].plot;
 */
@@ -152,8 +148,8 @@ NdefMixer(s);
 Midinote lookup table
 */
 (
-
 // we only calculate the highest octave
+// each semitone is divided into 16 steps for detuning
 q.temp.notes = 12.collect{ |note|
 	16.collect{ |semi|
 		116 + note + (semi/16);
@@ -167,10 +163,11 @@ q.tables.notes = [
 
 
 /*
+// midi notes to phase increment
 q.tables.notes = [
 	"lut_pitch_increments",
 	"prog_uint32_t",
-	Array.fill(128, { |note| note * 65536.0/q.samplerate * 65536.0 }).asInteger
+	Array.fill(128, { |note| note.midicps * 65536.0/q.samplerate * 65536.0 }).asInteger
 ];
 */
 )
