@@ -6,7 +6,15 @@ introduction to Direct Digital Synthesis (wavetable, phase oscillator, samplerat
 
 experiment with different wavetables, control possibilities, bit crushing...
 
-and more... 
+
+
+phaseOscillator shows the basic structure of a phase oscillator
+
+directDigitalSynthesis packs all this in a class 
+
+samplePlayback uses a Timer to play back a lofi sample stored on the program memory
+
+
 
 ##Scripts
 
