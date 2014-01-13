@@ -31,7 +31,7 @@ class Osc{
       const prog_uint8_t* wave_2 = lut_waves + wave_index + kWavetableLength;
   
       phase.value += phase_increment.value;
-      
+      the_overflow = (phase.value < phase_increment.value);
       sample = InterpolateTwoTables(wave_1, wave_2, phase.words[INTEGRAL], wave_balance);           
       return sample;
     }
@@ -67,10 +67,17 @@ class Osc{
     
     void sync();
     
-    void set_note(uint8_t _note);
+    void set_note(uint8_t _note); // 0..127
     void set_detune(int16_t _detune);
-    void set_parameter(uint8_t _parameter);
     void set_wave(uint8_t _bank, uint8_t _wave);
+    uint8_t gimme_overflow() {
+      if(the_overflow == 1) {
+        the_overflow = 0;
+        return 1;
+      } else {
+        return 0;
+      }
+    }
     
   private:
     LongWord phase;
@@ -79,6 +86,7 @@ class Osc{
     uint16_t wave_index;
     uint8_t note;
     int16_t detune;
+    uint8_t the_overflow; 
 };
 
 #endif
