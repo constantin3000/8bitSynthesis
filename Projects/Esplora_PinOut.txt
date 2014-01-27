@@ -1,0 +1,19 @@
+/*
+Esplora Header Pinout
+only right one is connected
+*/
+
+// Header next to the buttons
+Pin 0: 5V
+Pin 1: MISO         SPI
+Pin 2: SCK          SPI
+Pin 3: MOSI         SPI
+Pin 4: D7/LCD_CS    Pin 7
+Pin 5: IO8/CARD_CS  Pin 8
+Pin 6: IO11/DC_LCD  Pin 0
+Pin 7: RST_LCD      Pin 1
+Pin 8: 5V
+Pin 9: GND
+
+
+
