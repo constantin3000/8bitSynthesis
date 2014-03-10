@@ -15,13 +15,14 @@ void sampleInterrupt(){
   clock = osc.gimme_overflow();
   sub_clock += clock;
   data = the_sample > 127;
+  data = data ^ ((rungler>>7)&0x01);
   if(sub_clock == 31){
     sub_clock = 0;
-    rungler = (rungler<<clock) | data;
+    rungler = (rungler<<clock) | (data ^ (rungler>>8));
   }
   sample = (sample>>1) + (the_sample>>1);
 //  analogWrite causes audible glitches
-//  analogWrite(9, osc.Render()>>8);
+//  analogWrite(9, sample);
   // set pwm duty on Pin 9
   OCR1A = sample; 
   // set pwm duty on Pin 10
@@ -53,18 +54,18 @@ void loop(){
   the_osc.Update();
   RunglerTask();
 //  CounterTask();
-  PotTask();
+//  PotTask();
   delay(10);  
 }
 
 void RunglerTask(){
-  uint8_t note = 60;
+  uint8_t note = (analogRead(0)>>3);
   // a 3 bit value 0..7
-  note += ((rungler>>5))*4;
+  note += ((rungler>>5))*6;
   osc.set_note(note);
   
-  note = 13;
-  note += (rungler>>5)*2;
+  note = 48;
+  note += (rungler>>5)*4;
   the_osc.set_note(note);
   the_osc.set_detune(8);
 }
